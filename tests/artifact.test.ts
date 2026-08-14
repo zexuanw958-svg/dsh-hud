@@ -2,9 +2,11 @@ import { readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 
 describe('built DeepSeek Harness artifacts', () => {
-  it('ships a no-op host entry', () => {
+  it('ships the model-route projection host entry', () => {
     const source = readFileSync(new URL('../lib/index.js', import.meta.url), 'utf8')
     expect(source).toContain('function apply')
+    expect(source).toContain('sessionProjections.register')
+    expect(source).toContain('dshHudModelRoute')
   })
 
   it('registers the browser bundle through the Harness module loader', () => {
@@ -12,6 +14,7 @@ describe('built DeepSeek Harness artifacts', () => {
     expect(source).toContain('window.__ModuleLoader__.load({')
     expect(source).toContain('id: "dsh-hud"')
     expect(source).toContain('conversation.session.header.actions')
+    expect(source).toContain('dshHudModelRoute')
     expect(source).toContain('dsh-hud__panel')
   })
 })

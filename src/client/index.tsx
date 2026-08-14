@@ -4,12 +4,12 @@ import type { PropsRuntime } from '@deepseek-ai/dsh-client-ui-slots'
 import type {} from '@deepseek-ai/dsh-client-ui-conversation/client'
 import type {} from '@deepseek-ai/dsh-session-stats/client'
 import type {} from '@deepseek-ai/dsh-token-meter/client'
+import type {} from '../projection.ts'
 import {
   billedInputTokens,
   contextReading,
   formatDuration,
   formatTokens,
-  latestModelRoute,
   workspaceName,
 } from './format.ts'
 import { HUD_CSS, HUD_STYLE_ID } from './styles.ts'
@@ -49,10 +49,10 @@ export function apply(ctx: ClientContext): void {
 /** Live compact status plus an expandable detail panel. */
 function HudAction({ sessionId, useSession, useSessions, useProjection }: HudProps) {
   const running = useSession(snapshot => snapshot.running)
-  const route = useSession(snapshot => latestModelRoute(snapshot.nodes), sameRoute)
   const cwd = useSessions(state => state.byId[sessionId]?.cwd)
   const jobs = useSessions(state => state.jobsBySession[sessionId] ?? EMPTY_LIST)
   const subagents = useSessions(state => state.subagentsByParent[sessionId]?.entries ?? EMPTY_LIST)
+  const route = useProjection('dshHudModelRoute')
   const pressure = useProjection('contextPressure')
   const usage = useProjection('tokenUsage')
   const stats = useProjection('sessionStats')
@@ -147,10 +147,6 @@ function HudAction({ sessionId, useSession, useSessions, useProjection }: HudPro
       )}
     </div>
   )
-}
-
-function sameRoute(left: ReturnType<typeof latestModelRoute>, right: ReturnType<typeof latestModelRoute>): boolean {
-  return left?.provider === right?.provider && left?.model === right?.model
 }
 
 function Metric({ label, value }: { label: string; value: string }) {

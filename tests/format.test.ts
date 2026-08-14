@@ -4,7 +4,6 @@ import {
   contextReading,
   formatDuration,
   formatTokens,
-  latestModelRoute,
   workspaceName,
 } from '../src/client/format.ts'
 
@@ -36,14 +35,6 @@ describe('HUD formatting', () => {
       cacheReadTokens: 20,
       cacheWriteTokens: 3,
     })).toBe(33)
-  })
-
-  it('finds the newest assistant model route', () => {
-    const nodes = [
-      { kind: 'assistant', requestConfig: { provider: 'old', model: 'a' } },
-      { kind: 'assistant', provenance: { provider: 'deepseek', model: 'v4' } },
-    ] as never
-    expect(latestModelRoute(nodes)).toEqual({ provider: 'deepseek', model: 'v4' })
   })
 
   it('extracts a workspace basename across path styles', () => {

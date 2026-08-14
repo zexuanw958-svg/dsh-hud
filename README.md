@@ -105,6 +105,7 @@ npx --yes @deepseek-ai/dsh@0.1.0-rc.6 web
 ```mermaid
 flowchart LR
   A["Harness session snapshot"] --> D["dsh-hud"]
+  R["request/context route projection"] --> D
   B["contextPressure / tokenUsage"] --> D
   C["sessionStats / jobs / subagents"] --> D
   D --> E["Compact header status"]
@@ -113,7 +114,7 @@ flowchart LR
 
 插件使用官方 `conversation.session.header.actions` slot 注入一个自包含的 React 组件：
 
-- Host 侧只负责注册插件，不拦截或改写 Agent 流程；
+- Host 侧只把已有的 `request/context` 事件折叠成只读模型路由 projection，不拦截或改写 Agent 流程；
 - Client 侧订阅 Harness 已有的 session snapshot 与 projections；
 - 数据变化由 Harness 推送触发渲染，没有定时轮询；
 - HUD 数据只用于 UI，不会被塞进提示词或占用模型上下文。
@@ -124,6 +125,7 @@ flowchart LR
 dsh-hud/
 ├── src/
 │   ├── index.ts             # Host 插件入口
+│   ├── projection.ts        # Provider / Model 路由 projection
 │   └── client/
 │       ├── index.tsx        # Header slot 与 HUD 组件
 │       ├── format.ts        # Token、耗时与模型路由格式化

@@ -1,26 +1,9 @@
-import type { ConversationNode } from '@deepseek-ai/dsh-client-runtime/client'
 import type { ContextPressureProjection, TokenUsageProjection } from '@deepseek-ai/dsh-token-meter/client'
-
-export interface ModelRoute {
-  provider: string
-  model: string
-}
 
 export interface ContextReading {
   percent: number
   usedTokens: number
   contextWindow: number
-}
-
-/** Find the newest durable model route without manufacturing a default. */
-export function latestModelRoute(nodes: readonly ConversationNode[]): ModelRoute | null {
-  for (let index = nodes.length - 1; index >= 0; index -= 1) {
-    const node = nodes[index]
-    if (node?.kind !== 'assistant') continue
-    const source = node.requestConfig ?? node.provenance
-    if (source !== undefined) return { provider: source.provider, model: source.model }
-  }
-  return null
 }
 
 /** Prompt-side context occupancy, clamped for display rather than policy. */

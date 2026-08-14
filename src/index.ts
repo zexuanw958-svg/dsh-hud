@@ -1,8 +1,10 @@
-/**
- * dsh-hud host half. The plugin is intentionally browser-only for v0.1:
- * this no-op entry makes the package visible to the Host Loader, whose client
- * module scanner discovers the package's `dsh.client` declaration.
- */
+import type { Context } from '@deepseek-ai/cordis'
+import { hudModelRouteProjectionDefinition } from './projection.ts'
 
-/** Host plugin body — all behavior lives in the browser half. */
-export function apply(): void {}
+/** Host capability required to fold the durable model route without polling. */
+export const inject = ['sessionProjections']
+
+/** Register the one read-only projection consumed by the browser HUD. */
+export function apply(ctx: Context): void {
+  ctx.sessionProjections.register(hudModelRouteProjectionDefinition)
+}
