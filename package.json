@@ -29,6 +29,7 @@
   },
   "files": [
     "lib",
+    "docs/banner.png",
     "docs/banner.svg",
     "cordis.patch.yml",
     "README.md",

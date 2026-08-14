@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="docs/banner.svg" alt="dsh-hud · DeepSeek Harness session telemetry at a glance" width="860">
+<img src="docs/banner.png" alt="dsh-hud · DeepSeek V4 Pro 会话遥测，一眼掌握 Agent 状态" width="860">
 
 # ◉ dsh-hud
 
