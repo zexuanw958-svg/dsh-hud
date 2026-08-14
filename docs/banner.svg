@@ -1,97 +1,113 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="520" viewBox="0 0 1200 520" role="img" aria-labelledby="title desc">
   <title id="title">dsh-hud</title>
-  <desc id="desc">A dark telemetry dashboard showing DeepSeek Harness session status, context pressure, token counts, and timing.</desc>
+  <desc id="desc">A minimal DeepSeek Harness session HUD showing DeepSeek V4 Pro, context pressure, steps, and token telemetry.</desc>
+
   <defs>
-    <linearGradient id="bg" x1="60" y1="10" x2="1120" y2="510" gradientUnits="userSpaceOnUse">
+    <linearGradient id="background" x1="110" y1="20" x2="1090" y2="500" gradientUnits="userSpaceOnUse">
       <stop stop-color="#0B1020"/>
-      <stop offset="0.55" stop-color="#11182B"/>
-      <stop offset="1" stop-color="#080C17"/>
+      <stop offset="0.52" stop-color="#080C16"/>
+      <stop offset="1" stop-color="#0D0B19"/>
     </linearGradient>
-    <linearGradient id="line" x1="357" y1="0" x2="813" y2="0" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#4F8CFF"/>
-      <stop offset="1" stop-color="#9B6CFF"/>
+    <radialGradient id="auroraBlue" cx="0" cy="0" r="1" gradientTransform="translate(418 286) rotate(12) scale(410 230)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#3578FF" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#3578FF" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="auroraViolet" cx="0" cy="0" r="1" gradientTransform="translate(805 288) rotate(168) scale(430 235)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#8B5CFF" stop-opacity="0.2"/>
+      <stop offset="1" stop-color="#8B5CFF" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="accent" x1="241" y1="0" x2="964" y2="0" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#4B91FF"/>
+      <stop offset="0.52" stop-color="#796CFF"/>
+      <stop offset="1" stop-color="#B45CFF"/>
     </linearGradient>
-    <linearGradient id="glow" x1="420" y1="115" x2="800" y2="430" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#4F8CFF" stop-opacity="0.2"/>
-      <stop offset="1" stop-color="#9B6CFF" stop-opacity="0.03"/>
+    <linearGradient id="panel" x1="205" y1="217" x2="994" y2="326" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#151C2C" stop-opacity="0.97"/>
+      <stop offset="1" stop-color="#101522" stop-opacity="0.97"/>
     </linearGradient>
-    <filter id="shadow" x="-20%" y="-30%" width="140%" height="170%">
-      <feDropShadow dx="0" dy="18" stdDeviation="22" flood-color="#02040A" flood-opacity="0.68"/>
+    <filter id="panelShadow" x="-15%" y="-50%" width="130%" height="220%">
+      <feDropShadow dx="0" dy="22" stdDeviation="25" flood-color="#00040D" flood-opacity="0.72"/>
     </filter>
-    <filter id="dotGlow" x="-200%" y="-200%" width="500%" height="500%">
+    <filter id="liveGlow" x="-250%" y="-250%" width="600%" height="600%">
       <feGaussianBlur stdDeviation="5" result="blur"/>
       <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
-    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-      <path d="M40 0H0V40" fill="none" stroke="#8CA4D8" stroke-opacity="0.055"/>
+    <pattern id="microgrid" width="44" height="44" patternUnits="userSpaceOnUse">
+      <path d="M44 0H0V44" fill="none" stroke="#A7B7DC" stroke-opacity="0.035"/>
     </pattern>
   </defs>
 
-  <rect width="1200" height="520" rx="28" fill="url(#bg)"/>
-  <rect width="1200" height="520" rx="28" fill="url(#grid)"/>
-  <circle cx="176" cy="34" r="210" fill="#4F8CFF" opacity="0.07"/>
-  <circle cx="1060" cy="470" r="250" fill="#936BFF" opacity="0.08"/>
+  <rect width="1200" height="520" rx="32" fill="url(#background)"/>
+  <rect width="1200" height="520" rx="32" fill="url(#microgrid)"/>
+  <rect width="1200" height="520" rx="32" fill="url(#auroraBlue)"/>
+  <rect width="1200" height="520" rx="32" fill="url(#auroraViolet)"/>
 
   <g font-family="Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
-    <g transform="translate(76 72)">
-      <circle cx="11" cy="11" r="10" fill="#4F8CFF" opacity="0.2"/>
-      <circle cx="11" cy="11" r="4" fill="#7AA7FF"/>
-      <text x="35" y="18" fill="#F4F7FF" font-size="27" font-weight="700" letter-spacing="0.5">dsh-hud</text>
-      <text x="0" y="62" fill="#8290AC" font-size="15" font-weight="600" letter-spacing="2.4">DEEPSEEK HARNESS · SESSION TELEMETRY</text>
-      <text x="0" y="113" fill="#F6F8FF" font-size="38" font-weight="720">Stay in flow.</text>
-      <text x="0" y="159" fill="#AEB9CE" font-size="20">See what your Agent is doing</text>
-      <text x="0" y="190" fill="#AEB9CE" font-size="20">without leaving the conversation.</text>
+    <!-- Wordmark -->
+    <g transform="translate(518 49)">
+      <rect width="32" height="32" rx="10" fill="#141E33" stroke="#2E4267"/>
+      <circle cx="16" cy="16" r="7" fill="none" stroke="url(#accent)" stroke-width="2"/>
+      <circle cx="16" cy="16" r="2.7" fill="#70A2FF"/>
+      <path d="M16 5v3M27 16h-3M16 27v-3M5 16h3" stroke="#6F83A9" stroke-width="1.2" stroke-linecap="round"/>
+      <text x="45" y="23" fill="#EEF3FF" font-size="20" font-weight="720" letter-spacing="0.2">dsh-hud</text>
+    </g>
 
-      <g transform="translate(0 237)">
-        <rect width="128" height="34" rx="17" fill="#13233A" stroke="#264873"/>
-        <circle cx="19" cy="17" r="4" fill="#3FDC92"/>
-        <text x="31" y="22" fill="#A9E9CB" font-size="13" font-weight="650">NO POLLING</text>
-        <rect x="140" width="126" height="34" rx="17" fill="#201936" stroke="#44306D"/>
-        <text x="159" y="22" fill="#C8B5FA" font-size="13" font-weight="650">NATIVE SLOT</text>
+    <!-- Hero copy -->
+    <text x="600" y="132" fill="#F7F9FF" font-size="44" font-weight="730" text-anchor="middle" letter-spacing="-1.2">Your Agent, at a glance.</text>
+    <text x="600" y="169" fill="#8D9BB5" font-size="17" font-weight="500" text-anchor="middle">Live session telemetry for DeepSeek Harness</text>
+
+    <!-- The product: one focused HUD -->
+    <g filter="url(#panelShadow)">
+      <rect x="190" y="211" width="820" height="114" rx="27" fill="url(#panel)" stroke="#30405B"/>
+      <rect x="191" y="212" width="818" height="112" rx="26" fill="none" stroke="#FFFFFF" stroke-opacity="0.035"/>
+
+      <circle cx="229" cy="257" r="5" fill="#43E6A0" filter="url(#liveGlow)"/>
+      <text x="244" y="262" fill="#74E6B2" font-size="11" font-weight="750" letter-spacing="1.1">LIVE</text>
+      <path d="M291 239v36" stroke="#2E3A50"/>
+
+      <text x="318" y="263" fill="#F3F6FC" font-size="20" font-weight="680">DeepSeek V4 Pro</text>
+
+      <text x="622" y="249" fill="#71809B" font-size="10" font-weight="700" letter-spacing="1">CONTEXT</text>
+      <text x="622" y="270" fill="#E7ECF7" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="16" font-weight="700">43%</text>
+
+      <text x="765" y="249" fill="#71809B" font-size="10" font-weight="700" letter-spacing="1">STEPS</text>
+      <text x="765" y="270" fill="#E7ECF7" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="16" font-weight="700">18</text>
+
+      <text x="867" y="249" fill="#71809B" font-size="10" font-weight="700" letter-spacing="1">ELAPSED</text>
+      <text x="867" y="270" fill="#E7ECF7" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="16" font-weight="700">2m 52s</text>
+
+      <rect x="318" y="291" width="644" height="5" rx="2.5" fill="#232E43"/>
+      <rect x="318" y="291" width="277" height="5" rx="2.5" fill="url(#accent)"/>
+      <circle cx="595" cy="293.5" r="4.5" fill="#806DFF"/>
+    </g>
+
+    <!-- Quiet secondary telemetry -->
+    <g transform="translate(287 361)">
+      <g>
+        <rect width="184" height="54" rx="16" fill="#101624" stroke="#25324A"/>
+        <text x="18" y="23" fill="#72809A" font-size="10" font-weight="700" letter-spacing="0.8">INPUT</text>
+        <text x="18" y="42" fill="#DCE4F2" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14" font-weight="700">48.2k tokens</text>
+      </g>
+      <g transform="translate(195)">
+        <rect width="184" height="54" rx="16" fill="#101624" stroke="#25324A"/>
+        <text x="18" y="23" fill="#72809A" font-size="10" font-weight="700" letter-spacing="0.8">OUTPUT</text>
+        <text x="18" y="42" fill="#DCE4F2" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14" font-weight="700">6.8k tokens</text>
+      </g>
+      <g transform="translate(390)">
+        <rect width="236" height="54" rx="16" fill="#101624" stroke="#25324A"/>
+        <text x="18" y="23" fill="#72809A" font-size="10" font-weight="700" letter-spacing="0.8">BACKGROUND</text>
+        <circle cx="21" cy="39" r="3" fill="#43E6A0"/>
+        <text x="31" y="43" fill="#DCE4F2" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14" font-weight="700">2 jobs · 3 agents</text>
       </g>
     </g>
 
-    <g filter="url(#shadow)">
-      <rect x="520" y="61" width="608" height="399" rx="22" fill="#101625" stroke="#2A344A"/>
-      <rect x="521" y="62" width="606" height="61" rx="21" fill="#151C2D"/>
-      <path d="M521 102H1127" stroke="#263147"/>
-
-      <circle cx="551" cy="92" r="4" fill="#FF6B7A" opacity="0.9"/>
-      <circle cx="568" cy="92" r="4" fill="#F8C45C" opacity="0.9"/>
-      <circle cx="585" cy="92" r="4" fill="#44D79B" opacity="0.9"/>
-      <text x="611" y="97" fill="#8897B2" font-size="13" font-weight="600">conversation / build-a-plugin</text>
-
-      <rect x="687" y="75" width="415" height="35" rx="9" fill="#0C1220" stroke="#2B3850"/>
-      <circle cx="707" cy="92.5" r="5" fill="#3FDC92" filter="url(#dotGlow)"/>
-      <text x="722" y="97" fill="#D9E2F4" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="650">deepseek-v3.1</text>
-      <text x="847" y="97" fill="#566580" font-size="14">·</text>
-      <text x="864" y="97" fill="#9EACC2" font-size="13">ctx 43%</text>
-      <text x="930" y="97" fill="#566580" font-size="14">·</text>
-      <text x="947" y="97" fill="#9EACC2" font-size="13">18 steps</text>
-      <path d="m1076 89 5 5 5-5" fill="none" stroke="#8190A8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-
-      <rect x="682" y="133" width="420" height="299" rx="17" fill="#111827" stroke="#303B50"/>
-      <rect x="683" y="134" width="418" height="298" rx="16" fill="url(#glow)"/>
-      <text x="704" y="163" fill="#71809A" font-size="10" font-weight="700" letter-spacing="1.3">DEEPSEEK HARNESS</text>
-      <text x="704" y="187" fill="#F3F6FC" font-size="17" font-weight="700">Session HUD</text>
-      <rect x="1025" y="151" width="56" height="23" rx="11.5" fill="#153427"/>
-      <circle cx="1038" cy="162.5" r="4" fill="#3FDC92"/>
-      <text x="1048" y="166" fill="#74E1AE" font-size="10" font-weight="700">LIVE</text>
-
-      <rect x="704" y="207" width="376" height="62" rx="11" fill="#0D1422" stroke="#28344A"/>
-      <text x="718" y="228" fill="#8290AA" font-size="11">Context pressure</text>
-      <text x="968" y="228" fill="#C7D1E2" font-size="11" font-weight="650">43% · ~55k / 128k</text>
-      <rect x="718" y="243" width="348" height="6" rx="3" fill="#222C40"/>
-      <rect x="718" y="243" width="150" height="6" rx="3" fill="url(#line)"/>
-
-      <g transform="translate(704 283)">
-        <g><rect width="118" height="58" rx="9" fill="#0D1422" stroke="#28344A"/><text x="12" y="21" fill="#70809B" font-size="10">Input</text><text x="12" y="42" fill="#EFF3FA" font-family="ui-monospace, monospace" font-size="14" font-weight="700">48.2k</text></g>
-        <g transform="translate(129)"><rect width="118" height="58" rx="9" fill="#0D1422" stroke="#28344A"/><text x="12" y="21" fill="#70809B" font-size="10">Output</text><text x="12" y="42" fill="#EFF3FA" font-family="ui-monospace, monospace" font-size="14" font-weight="700">6.8k</text></g>
-        <g transform="translate(258)"><rect width="118" height="58" rx="9" fill="#0D1422" stroke="#28344A"/><text x="12" y="21" fill="#70809B" font-size="10">Turns / steps</text><text x="12" y="42" fill="#EFF3FA" font-family="ui-monospace, monospace" font-size="14" font-weight="700">7 / 18</text></g>
-        <g transform="translate(0 69)"><rect width="118" height="58" rx="9" fill="#0D1422" stroke="#28344A"/><text x="12" y="21" fill="#70809B" font-size="10">Model time</text><text x="12" y="42" fill="#EFF3FA" font-family="ui-monospace, monospace" font-size="14" font-weight="700">2m 14s</text></g>
-        <g transform="translate(129 69)"><rect width="118" height="58" rx="9" fill="#0D1422" stroke="#28344A"/><text x="12" y="21" fill="#70809B" font-size="10">Tool time</text><text x="12" y="42" fill="#EFF3FA" font-family="ui-monospace, monospace" font-size="14" font-weight="700">38s</text></g>
-        <g transform="translate(258 69)"><rect width="118" height="58" rx="9" fill="#0D1422" stroke="#28344A"/><text x="12" y="21" fill="#70809B" font-size="10">Jobs / agents</text><text x="12" y="42" fill="#EFF3FA" font-family="ui-monospace, monospace" font-size="14" font-weight="700">2 / 3</text></g>
-      </g>
+    <!-- Product principles -->
+    <g fill="#66758E" font-size="10" font-weight="700" letter-spacing="1.35">
+      <text x="407" y="465" text-anchor="middle">NO POLLING</text>
+      <circle cx="481" cy="461" r="2" fill="#3B4A63"/>
+      <text x="544" y="465" text-anchor="middle">NATIVE SLOT</text>
+      <circle cx="621" cy="461" r="2" fill="#3B4A63"/>
+      <text x="713" y="465" text-anchor="middle">ZERO CONTEXT COST</text>
     </g>
   </g>
 </svg>
