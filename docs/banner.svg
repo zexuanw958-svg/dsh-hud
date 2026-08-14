@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="520" viewBox="0 0 1200 520" role="img" aria-labelledby="title desc">
+  <title id="title">dsh-hud</title>
+  <desc id="desc">A dark telemetry dashboard showing DeepSeek Harness session status, context pressure, token counts, and timing.</desc>
+  <defs>
+    <linearGradient id="bg" x1="60" y1="10" x2="1120" y2="510" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0B1020"/>
+      <stop offset="0.55" stop-color="#11182B"/>
+      <stop offset="1" stop-color="#080C17"/>
+    </linearGradient>
+    <linearGradient id="line" x1="357" y1="0" x2="813" y2="0" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#4F8CFF"/>
+      <stop offset="1" stop-color="#9B6CFF"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="420" y1="115" x2="800" y2="430" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#4F8CFF" stop-opacity="0.2"/>
+      <stop offset="1" stop-color="#9B6CFF" stop-opacity="0.03"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-30%" width="140%" height="170%">
+      <feDropShadow dx="0" dy="18" stdDeviation="22" flood-color="#02040A" flood-opacity="0.68"/>
+    </filter>
+    <filter id="dotGlow" x="-200%" y="-200%" width="500%" height="500%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#8CA4D8" stroke-opacity="0.055"/>
+    </pattern>
+  </defs>
+
+  <rect width="1200" height="520" rx="28" fill="url(#bg)"/>
+  <rect width="1200" height="520" rx="28" fill="url(#grid)"/>
+  <circle cx="176" cy="34" r="210" fill="#4F8CFF" opacity="0.07"/>
+  <circle cx="1060" cy="470" r="250" fill="#936BFF" opacity="0.08"/>
+
+  <g font-family="Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+    <g transform="translate(76 72)">
+      <circle cx="11" cy="11" r="10" fill="#4F8CFF" opacity="0.2"/>
+      <circle cx="11" cy="11" r="4" fill="#7AA7FF"/>
+      <text x="35" y="18" fill="#F4F7FF" font-size="27" font-weight="700" letter-spacing="0.5">dsh-hud</text>
+      <text x="0" y="62" fill="#8290AC" font-size="15" font-weight="600" letter-spacing="2.4">DEEPSEEK HARNESS · SESSION TELEMETRY</text>
+      <text x="0" y="113" fill="#F6F8FF" font-size="38" font-weight="720">Stay in flow.</text>
+      <text x="0" y="159" fill="#AEB9CE" font-size="20">See what your Agent is doing</text>
+      <text x="0" y="190" fill="#AEB9CE" font-size="20">without leaving the conversation.</text>
+
+      <g transform="translate(0 237)">
+        <rect width="128" height="34" rx="17" fill="#13233A" stroke="#264873"/>
+        <circle cx="19" cy="17" r="4" fill="#3FDC92"/>
+        <text x="31" y="22" fill="#A9E9CB" font-size="13" font-weight="650">NO POLLING</text>
+        <rect x="140" width="126" height="34" rx="17" fill="#201936" stroke="#44306D"/>
+        <text x="159" y="22" fill="#C8B5FA" font-size="13" font-weight="650">NATIVE SLOT</text>
+      </g>
+    </g>
+
+    <g filter="url(#shadow)">
+      <rect x="520" y="61" width="608" height="399" rx="22" fill="#101625" stroke="#2A344A"/>
+      <rect x="521" y="62" width="606" height="61" rx="21" fill="#151C2D"/>
+      <path d="M521 102H1127" stroke="#263147"/>
+
+      <circle cx="551" cy="92" r="4" fill="#FF6B7A" opacity="0.9"/>
+      <circle cx="568" cy="92" r="4" fill="#F8C45C" opacity="0.9"/>
+      <circle cx="585" cy="92" r="4" fill="#44D79B" opacity="0.9"/>
+      <text x="611" y="97" fill="#8897B2" font-size="13" font-weight="600">conversation / build-a-plugin</text>
+
+      <rect x="687" y="75" width="415" height="35" rx="9" fill="#0C1220" stroke="#2B3850"/>
+      <circle cx="707" cy="92.5" r="5" fill="#3FDC92" filter="url(#dotGlow)"/>
+      <text x="722" y="97" fill="#D9E2F4" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="650">deepseek-v3.1</text>
+      <text x="847" y="97" fill="#566580" font-size="14">·</text>
+      <text x="864" y="97" fill="#9EACC2" font-size="13">ctx 43%</text>
+      <text x="930" y="97" fill="#566580" font-size="14">·</text>
+      <text x="947" y="97" fill="#9EACC2" font-size="13">18 steps</text>
+      <path d="m1076 89 5 5 5-5" fill="none" stroke="#8190A8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+      <rect x="682" y="133" width="420" height="299" rx="17" fill="#111827" stroke="#303B50"/>
+      <rect x="683" y="134" width="418" height="298" rx="16" fill="url(#glow)"/>
+      <text x="704" y="163" fill="#71809A" font-size="10" font-weight="700" letter-spacing="1.3">DEEPSEEK HARNESS</text>
+      <text x="704" y="187" fill="#F3F6FC" font-size="17" font-weight="700">Session HUD</text>
+      <rect x="1025" y="151" width="56" height="23" rx="11.5" fill="#153427"/>
+      <circle cx="1038" cy="162.5" r="4" fill="#3FDC92"/>
+      <text x="1048" y="166" fill="#74E1AE" font-size="10" font-weight="700">LIVE</text>
+
+      <rect x="704" y="207" width="376" height="62" rx="11" fill="#0D1422" stroke="#28344A"/>
+      <text x="718" y="228" fill="#8290AA" font-size="11">Context pressure</text>
+      <text x="968" y="228" fill="#C7D1E2" font-size="11" font-weight="650">43% · ~55k / 128k</text>
+      <rect x="718" y="243" width="348" height="6" rx="3" fill="#222C40"/>
+      <rect x="718" y="243" width="150" height="6" rx="3" fill="url(#line)"/>
+
+      <g transform="translate(704 283)">
+        <g><rect width="118" height="58" rx="9" fill="#0D1422" stroke="#28344A"/><text x="12" y="21" fill="#70809B" font-size="10">Input</text><text x="12" y="42" fill="#EFF3FA" font-family="ui-monospace, monospace" font-size="14" font-weight="700">48.2k</text></g>
+        <g transform="translate(129)"><rect width="118" height="58" rx="9" fill="#0D1422" stroke="#28344A"/><text x="12" y="21" fill="#70809B" font-size="10">Output</text><text x="12" y="42" fill="#EFF3FA" font-family="ui-monospace, monospace" font-size="14" font-weight="700">6.8k</text></g>
+        <g transform="translate(258)"><rect width="118" height="58" rx="9" fill="#0D1422" stroke="#28344A"/><text x="12" y="21" fill="#70809B" font-size="10">Turns / steps</text><text x="12" y="42" fill="#EFF3FA" font-family="ui-monospace, monospace" font-size="14" font-weight="700">7 / 18</text></g>
+        <g transform="translate(0 69)"><rect width="118" height="58" rx="9" fill="#0D1422" stroke="#28344A"/><text x="12" y="21" fill="#70809B" font-size="10">Model time</text><text x="12" y="42" fill="#EFF3FA" font-family="ui-monospace, monospace" font-size="14" font-weight="700">2m 14s</text></g>
+        <g transform="translate(129 69)"><rect width="118" height="58" rx="9" fill="#0D1422" stroke="#28344A"/><text x="12" y="21" fill="#70809B" font-size="10">Tool time</text><text x="12" y="42" fill="#EFF3FA" font-family="ui-monospace, monospace" font-size="14" font-weight="700">38s</text></g>
+        <g transform="translate(258 69)"><rect width="118" height="58" rx="9" fill="#0D1422" stroke="#28344A"/><text x="12" y="21" fill="#70809B" font-size="10">Jobs / agents</text><text x="12" y="42" fill="#EFF3FA" font-family="ui-monospace, monospace" font-size="14" font-weight="700">2 / 3</text></g>
+      </g>
+    </g>
+  </g>
+</svg>
