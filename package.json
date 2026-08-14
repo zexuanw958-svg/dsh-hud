@@ -1,7 +1,7 @@
 {
   "name": "dsh-hud",
   "version": "0.1.0",
-  "description": "A compact, live session HUD for DeepSeek Harness",
+  "description": "Codex/Claude Code-style live session telemetry for DeepSeek Harness",
   "keywords": [
     "deepseek",
     "deepseek-harness",

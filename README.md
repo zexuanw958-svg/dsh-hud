@@ -4,11 +4,11 @@
 
 # ◉ dsh-hud
 
-<sub><code>DeepSeek Harness · Session HUD</code></sub>
+<sub><code>DeepSeek Harness · Agent Runtime HUD</code></sub>
 
-**把模型、上下文、Token 和执行状态，收进会话标题栏的一小块 HUD。**
+**把 Codex / Claude Code 里「Agent 还在做什么、还剩多少上下文」这类运行态可见性，带到 DeepSeek Harness。**
 
-无需轮询 · 不侵入核心 UI · 不占用模型上下文 · 点击即看完整会话遥测
+模型路由 · 上下文压力 · Token 用量 · 模型/工具耗时 · 后台任务与子 Agent，一直留在会话顶栏。
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-4f8cff.svg?style=flat-square)](LICENSE)
 [![DeepSeek Harness](https://img.shields.io/badge/DeepSeek%20Harness-0.1.0--rc.6-8b6cff?style=flat-square)](#-兼容性)
@@ -18,7 +18,7 @@
 
 <sub>🎬 更多 AI 工具实战玩法：作者抖音 <strong>@泽轩604</strong></sub>
 
-<sub><a href="#-这是什么">这是什么</a> · <a href="#-功能">功能</a> · <a href="#-安装">安装</a> · <a href="#-工作原理">原理</a> · <a href="#-常见问题">FAQ</a> · <a href="#-english">English</a></sub>
+<sub><a href="#-这是什么">这是什么</a> · <a href="#-它对标什么">对标</a> · <a href="#-功能">功能</a> · <a href="#-安装">安装</a> · <a href="#-工作原理">原理</a> · <a href="#-常见问题">FAQ</a> · <a href="#-english">English</a></sub>
 
 </div>
 
@@ -26,11 +26,28 @@
 
 ## 🔭 这是什么
 
-`dsh-hud` 是一个面向 [DeepSeek Harness](https://github.com/deepseek-ai/DeepSeek-Harness) Web UI 的实时会话状态插件。
+`dsh-hud` 是一个面向 [DeepSeek Harness](https://github.com/deepseek-ai/DeepSeek-Harness) Web UI 的**只读 Agent 运行态观测插件**。
 
-它把最常用的运行信息放进会话标题栏：当前模型、Agent 状态、上下文占用率和累计步数。点击紧凑状态条，会展开 Token、耗时、后台任务、子 Agent、Provider 与工作区等完整信息。
+它解决的不是「怎么让 Agent 更聪明」，而是长任务里那个更朴素、也更折磨人的问题：**它还在跑吗？用了哪个模型？上下文快满了吗？时间花在模型还是工具上？后台到底还有几个任务？**
 
-目标很简单：**不用离开当前会话，就知道 Agent 在做什么、做了多久、还剩多少上下文。**
+紧凑状态条常驻会话标题栏，显示运行状态、模型、上下文压力和累计步数；点击后展开 Token、耗时、Jobs、子 Agent、Provider、Workspace 与 Session ID。数据直接来自 Harness 已有的 snapshot / projection，**无需轮询、不额外调用模型，也不占用提示词上下文**。
+
+目标很简单：**不用离开当前会话，就知道 Agent 做到哪了、消耗了什么、还能跑多久。**
+
+## 🎯 它对标什么
+
+最接近的一组参照，是 [Claude Code 的 `/statusline`](https://code.claude.com/docs/en/statusline)、[`/context` 与 `/usage`](https://code.claude.com/docs/en/commands)，再加上 [`/tasks` / `/agents`](https://code.claude.com/docs/en/agents) 对后台工作的可见性；Codex 侧借鉴的是[长任务与多 Agent 协同](https://developers.openai.com/api/docs/guides/latest-model#what-is-new)时「不用离开当前任务就能掌握运行状态」的产品思路。
+
+| 你想知道什么 | Codex / Claude Code 中的参照 | `dsh-hud` 当前实现 |
+|---|---|---|
+| Agent 还在运行吗？ | 长任务状态、Claude Code `/tasks` | 运行 / 空闲状态点，活动 Jobs 数量 |
+| 当前走哪个模型？ | 活动模型显示、Claude Code status line | 最近一次 Assistant 请求的 Model + Provider |
+| 上下文还剩多少？ | Claude Code `/context`、context progress bar | Projected context pressure、已用 Token / 窗口大小 |
+| 这轮消耗了什么？ | Claude Code `/usage` / `/cost` | 含缓存读写的输入 Token、输出 Token；模型耗时与工具耗时 |
+| 任务推进到哪里？ | Steps、后台任务、subagents / multi-agent | Turns / Steps、Jobs、子 Agent 数量 |
+| 我现在在哪个会话？ | status line 的 cwd / session metadata | Workspace 名称与 Session ID |
+
+> `dsh-hud` 不是 1:1 复刻，也不是控制台：它不会切换模型、停止任务或估算美元费用。它专注做一件事——以 Harness 原生 UI 的方式，把当前会话已经存在的运行数据持续露出来。
 
 ## ✨ 功能
 
@@ -167,9 +184,11 @@ HUD 属于会话标题栏。先打开或创建一个会话，它才会出现。
 
 ## 🌐 English
 
-`dsh-hud` is a compact, live session telemetry plugin for the [DeepSeek Harness](https://github.com/deepseek-ai/DeepSeek-Harness) Web UI.
+`dsh-hud` is a read-only Agent runtime observability plugin for the [DeepSeek Harness](https://github.com/deepseek-ai/DeepSeek-Harness) Web UI.
 
-It adds a native-looking status strip to the official session header slot. The compact view shows the active model, Agent state, context pressure, and step count; click it for token usage, timing, jobs, subagents, provider, workspace, and session details.
+Think of it as a native DeepSeek Harness counterpart to [Claude Code's status line](https://code.claude.com/docs/en/statusline), context and usage views, and [background-task visibility](https://code.claude.com/docs/en/agents)—with the same at-a-glance goal as long-running, multi-agent Codex workflows. It answers the operational questions that matter during a long run: is the Agent still active, which model route is in use, how much context is left, where time and tokens went, and whether jobs or subagents are still running.
+
+It adds a native-looking status strip to the official session header slot. The compact view shows the active model, Agent state, context pressure, and step count; click it for token usage, model/tool timing, jobs, subagents, provider, workspace, and session details. It consumes existing Harness snapshots and projections—no polling, extra model calls, or prompt-context overhead.
 
 ### Highlights
 
